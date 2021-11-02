@@ -12,8 +12,10 @@
 </template>
 
 <script>
-import BaseInput from "./ui/BaseInput.vue";
-import BaseButton from "./ui/BaseButton.vue";
+import BaseInput from "../ui/BaseInput.vue";
+import BaseButton from "../ui/BaseButton.vue";
+
+import { store, ADD_TODO } from '../../store';
 
 export default {
   name: "TodoListAdd",
@@ -34,7 +36,7 @@ export default {
     },
     addTodoItem() {
       if (this.task && this.task.length > 0) {
-        this.$emit("add-todo-item", { task: this.task, done: false });
+        store.dispatch(ADD_TODO, { task: this.task });
         this.task = "";
       } else {
         this.error = "Please enter a task";

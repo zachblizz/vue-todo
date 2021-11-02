@@ -6,7 +6,7 @@
         name="task"
         type="checkbox"
         :checked="todo.done"
-        @click="$emit('toggle-todo')"
+        @click="toggleTodo"
       />
       <label :for="todo.id" :class="{ strikeout: todo.done }">{{ todo.task }}</label>
     </div>
@@ -30,7 +30,9 @@
 </template>
 
 <script>
-import BaseButton from "./ui/BaseButton.vue";
+import { store, UPDATE_TODO } from '../../store';
+
+import BaseButton from "../ui/BaseButton.vue";
 
 export default {
   name: "TodoListItem",
@@ -39,6 +41,14 @@ export default {
     todo: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    toggleTodo() {
+      store.dispatch(UPDATE_TODO, {
+        ...this.todo,
+        done: !this.todo.done
+      });
     },
   },
 };
@@ -62,6 +72,11 @@ export default {
   text-align: left;
   width: 100%;
   padding: 0 1rem;
+}
+
+.todo-wrapper > label,
+.todo-wrapper > input {
+  cursor: pointer;
 }
 
 .todo-task-wrapper {
